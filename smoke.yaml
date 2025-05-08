@@ -1,0 +1,13 @@
+appId: pdfreader.pdfviewer.officetool.pdfscanner
+---
+# Run the base check test
+- runFlow:
+    file: "baseCheck.yaml"
+    label: "Running base check test"
+
+# Run the demo PDF verification test
+- runFlow:
+    file: "verify_demo_pdf.yaml"
+    label: "Running demo PDF verification test"
+
+# Wait a moment between tests to ensure clean state

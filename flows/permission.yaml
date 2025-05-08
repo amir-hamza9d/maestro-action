@@ -1,0 +1,37 @@
+appId: pdfreader.pdfviewer.officetool.pdfscanner
+---
+
+- runFlow:
+    file: "../hooks/beforeHook.yaml"  
+    label: "Setting up the app with fresh state"
+
+- assertVisible:
+    text: "Allow Access"
+    label: "Verify Allow Access button for permission is visible on home screen"
+
+- tapOn:
+    text: "Allow Access"
+    label: "Tap on Allow Access button"
+
+- assertWithAI:
+    assertion: "Verify that the app redirected to phone settings"
+    label: "Verify redirection to phone settings"
+
+- tapOn:
+    text: "Storage"
+    label: "Tap on Storage permission"
+
+- tapOn:
+    text: "Allow"
+    label: "Enable storage permission toggle"
+        
+- assertWithAI:
+    assertion: "Verify the app is back to the home screen"
+    label: "Verify app redirection after permission"
+
+- assertVisible:
+    text: "No files Found"
+    label: "Verify 'No files Found' text is displayed on home screen"
+
+- killApp:
+    label: "Close the app"

@@ -1,0 +1,26 @@
+appId: pdfreader.pdfviewer.officetool.pdfscanner
+---
+- runFlow:
+    file: "../hooks/beforeHook.yaml" 
+    label: "Setting up the app and executing the hook"
+    env:
+        FILENAME: "test.pdf"
+- assertWithAI:
+    assertion: "Verify that PDF Reader heading in displayed"
+    label: "Verify PDF Reader Heading on home screen"
+- assertVisible: 
+    text: "Open"
+    label: "Verify the Open button is visible"
+- tapOn: 
+    text: "Open"
+    label: "Tap on open for file manager"
+- assertVisible: "Large files"
+- tapOn: 
+    text: "Search"
+    label: "Tap Search icon for searching files"
+- inputText: 
+    text: ${FILENAME}
+    label: "Input the file name to search"
+- assertNoDefectsWithAI
+- back
+- killApp
