@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      GMSAAS_INSTANCE_NAME: android-e2e-${{ github.run_number }}
+      GMSAAS_INSTANCE_NAME: my-testing-device
 
     steps:
       - name: Checkout repo
