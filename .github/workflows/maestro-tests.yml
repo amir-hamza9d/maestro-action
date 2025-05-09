@@ -11,14 +11,10 @@ jobs:
     timeout-minutes: 45
     runs-on: ubuntu-latest
 
-    strategy:
-      fail-fast: false
-      max-parallel: 2 # Trial & Pay as you Go - with  2 max simultaneous devices (see: https://docs.genymotion.com/saas/03_1_Pricing/#pay-as-you-go)
-      matrix:
-        android_api: [13, 12, 11, 10, 9, 8_1, 8_0]
+
 
     env:
-      GMSAAS_INSTANCE_NAME: android-e2e-${{ github.run_number }}-${{ matrix.android_api }}
+      GMSAAS_INSTANCE_NAME: android-e2e-${{ github.run_number }}
 
     steps:
       - uses: actions/checkout@v3
