@@ -1,0 +1,80 @@
+name: Android E2E (Genymotion Cloud)
+
+on: [push, pull_request]
+
+env:
+  GM_ANDROID_14 : 3990323a-1e9a-49df-ad87-6947f7fc166e # my custom recipe
+
+jobs:
+  run_android_e2e:
+    timeout-minutes: 45
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      max-parallel: 2 # Trial & Pay as you Go - with  2 max simultaneous devices (see: https://docs.genymotion.com/saas/03_1_Pricing/#pay-as-you-go)
+      matrix:
+        android_api: [13, 12, 11, 10, 9, 8_1, 8_0]
+
+    env:
+      GMSAAS_INSTANCE_NAME: android-e2e
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 1
+
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: temurin
+          java-version: 11
+
+      - name: Install Maestro
+        run: MAESTRO_VERSION=1.30.4 curl -Ls 'https://get.maestro.mobile.dev' | bash
+
+      - name: Install genymotion
+        run: |
+          pip3 install gmsaas
+          gmsaas config set android-sdk-path "$ANDROID_HOME"
+
+      - name: Auth genymotion
+        run: gmsaas auth login amir.hamza@imaginationai.net 9Dtech@894
+
+      - name: Start an Instance
+        id: start_instance
+        run: |
+          gmsaas recipes list # List available recipes
+
+          INSTANCE_UUID=$(gmsaas instances start "$GM_ANDROID_${{ matrix.android_api }}" "${{ env.GMSAAS_INSTANCE_NAME }}")
+
+          echo "instance_uuid=$INSTANCE_UUID" >> "$GITHUB_OUTPUT"
+
+      - name: Connect an Instance to ADB
+        run: |
+          gmsaas instances adbconnect "${{ steps.start_instance.outputs.instance_uuid }}"
+          $ANDROID_HOME/platform-tools/adb devices
+
+      - name: Run Android E2E
+        run: |
+          $ANDROID_HOME/platform-tools/adb install maestro-pilot/apps/android/pdf_viewer.apk
+          maestro-pilot/flows/baseCheck.yaml
+
+      - name: Stop an Instance
+        if: always()
+        continue-on-error: true
+        run: |
+          gmsaas instances stop --no-wait "${{ steps.start_instance.outputs.instance_uuid }}"
+          gmsaas instances list
+
+
+      - name: Upload report
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: E2E Report (${{ matrix.android_api }})
+          path: |
+            ${{ github.workspace }}/*.mp4
+            ${{ github.workspace }}/*.png
+            ${{ github.workspace }}/report*.xml
+            ~/.maestro/tests/**/*
