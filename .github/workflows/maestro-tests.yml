@@ -50,6 +50,8 @@ jobs:
           INSTANCE_UUID=$(gmsaas instances start "3990323a-1e9a-49df-ad87-6947f7fc166e" "${{ env.GMSAAS_INSTANCE_NAME }}")
 
           echo "instance_uuid=$INSTANCE_UUID" >> "$GITHUB_OUTPUT"
+          echo "Waiting 60 seconds for instance to boot..."
+          sleep 60
 
       - name: Connect an Instance to ADB
         run: |
