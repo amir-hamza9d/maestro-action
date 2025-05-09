@@ -45,7 +45,7 @@ jobs:
       - name: Start an Instance
         id: start_instance
         run: |
-          gmsaas recipes list # List available recipes
+          # gmsaas recipes list # List available recipes
 
           INSTANCE_UUID=$(gmsaas instances start "3990323a-1e9a-49df-ad87-6947f7fc166e" "${{ env.GMSAAS_INSTANCE_NAME }}")
 
