@@ -1,6 +1,7 @@
 name: Android E2E (Genymotion Cloud)
 
-on: [push, pull_request]
+on:
+  workflow_dispatch:
 
 env:
   GM_ANDROID_14 : 3990323a-1e9a-49df-ad87-6947f7fc166e # my custom recipe
