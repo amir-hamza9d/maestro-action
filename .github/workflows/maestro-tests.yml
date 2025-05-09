@@ -18,7 +18,7 @@ jobs:
         android_api: [13, 12, 11, 10, 9, 8_1, 8_0]
 
     env:
-      GMSAAS_INSTANCE_NAME: android-e2e
+      GMSAAS_INSTANCE_NAME: my-testing-device
 
     steps:
       - uses: actions/checkout@v3
@@ -47,7 +47,7 @@ jobs:
         run: |
           gmsaas recipes list # List available recipes
 
-          INSTANCE_UUID=$(gmsaas instances start "$GM_ANDROID_${{ matrix.android_api }}" "${{ env.GMSAAS_INSTANCE_NAME }}")
+          INSTANCE_UUID=$(gmsaas instances start "3990323a-1e9a-49df-ad87-6947f7fc166e" "${{ env.GMSAAS_INSTANCE_NAME }}")
 
           echo "instance_uuid=$INSTANCE_UUID" >> "$GITHUB_OUTPUT"
 
