@@ -37,18 +37,18 @@ jobs:
       - name: Authenticate Genymotion
         run: gmsaas auth login amir.hamza@imaginationai.net 9Dtech@894
 
-      # - name: Start Genymotion Instance
-      #   id: start_instance
-      #   run: |
-      #     INSTANCE_UUID=$(gmsaas instances start "${{ env.GM_ANDROID_14 }}" "${{ env.GMSAAS_INSTANCE_NAME }}")
-      #     echo "instance_uuid=$INSTANCE_UUID" >> "$GITHUB_OUTPUT"
-      #     echo "Waiting 60 seconds for instance to boot..."
-      #     sleep 15
+      - name: Start Genymotion Instance
+        id: start_instance
+        run: |
+          INSTANCE_UUID=$(gmsaas instances start "${{ env.GM_ANDROID_14 }}" "${{ env.GMSAAS_INSTANCE_NAME }}")
+          echo "instance_uuid=$INSTANCE_UUID" >> "$GITHUB_OUTPUT"
+          echo "Waiting 60 seconds for instance to boot..."
+          sleep 20
 
-      # - name: Connect Instance to ADB
-      #   run: |
-      #     gmsaas instances adbconnect "${{ steps.start_instance.outputs.instance_uuid }}"
-      #     $ANDROID_HOME/platform-tools/adb devices
+      - name: Connect Instance to ADB
+        run: |
+          gmsaas instances adbconnect "${{ steps.start_instance.outputs.instance_uuid }}"
+          $ANDROID_HOME/platform-tools/adb devices
 
       - name: Run Android E2E Tests
         run: |
