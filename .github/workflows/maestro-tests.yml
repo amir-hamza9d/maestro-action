@@ -18,7 +18,7 @@ jobs:
         android_api: [13, 12, 11, 10, 9, 8_1, 8_0]
 
     env:
-      GMSAAS_INSTANCE_NAME: my-testing-device
+      GMSAAS_INSTANCE_NAME: android-e2e-${{ github.run_number }}-${{ matrix.android_api }}
 
     steps:
       - uses: actions/checkout@v3
