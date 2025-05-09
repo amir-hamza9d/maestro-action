@@ -58,6 +58,7 @@ jobs:
 
       - name: Run Android E2E
         run: |
+          pwd
           $ANDROID_HOME/platform-tools/adb install maestro-pilot/apps/android/pdf_viewer.apk
           maestro-pilot/flows/baseCheck.yaml
 
