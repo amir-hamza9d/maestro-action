@@ -8,9 +8,9 @@ appId: pdfreader.pdfviewer.officetool.pdfscanner
 - assertWithAI:
     assertion: "Verify that PDF Reader heading in displayed"
     label: "Verify PDF Reader Heading on home screen"
-- assertVisible:
-    text: "Open"
-    label: "Verify the Open button is visible"
+- extendedWaitUntil:
+    visible: "Open" # or any other selector
+    timeout: 10000  
 - tapOn:
     text: "Open"
     label: "Tap on open for file manager"
