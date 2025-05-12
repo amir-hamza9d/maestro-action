@@ -2,12 +2,16 @@ appId: pdfreader.pdfviewer.officetool.pdfscanner
 env:
     MAESTRO_CLOUD_API_KEY: "rb_1CcKRBzHIHJHZSX450ZFIFTBxTrS6COM30SohlNpfOjQaXnpBppaCjgG22KXUCotw0ul9i2LX8K7XaY4jQOnp60QNqS5Tih4Ret"
 ---
-- runScript: "../app-elements/base-elements.js"
+- clearState: pdfreader.pdfviewer.officetool.pdfscanner
 - launchApp:
+    appId: pdfreader.pdfviewer.officetool.pdfscanner
     clearState: true
+    permissions:
+        medialibrary: unset
+        storage: unset
+        all: unset
+- runScript: "../app-elements/base-elements.js"
 
-# - assertVisible:
-#         text: ${output.base.consent}
 - waitForAnimationToEnd
 - runFlow:
     when:
