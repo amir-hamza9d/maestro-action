@@ -14,7 +14,8 @@ appId: pdfreader.pdfviewer.officetool.pdfscanner
 - tapOn:
     text: "Open"
     label: "Tap on open for file manager"
-- assertVisible: "Large files"
+- assertVisible: 
+    text: "Large files"
 - tapOn: 
     text: "Search"
     label: "Tap Search icon for searching files"

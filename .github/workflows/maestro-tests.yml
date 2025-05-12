@@ -13,6 +13,7 @@ jobs:
 
     env:
       GMSAAS_INSTANCE_NAME: my-testing-device
+      MAESTRO_DRIVER_STARTUP_TIMEOUT: 60000 # setting 60 seconds timeout
 
     steps:
       - name: Checkout repo
@@ -37,23 +38,24 @@ jobs:
       - name: Authenticate Genymotion
         run: gmsaas auth login amir.hamza@imaginationai.net 9Dtech@894
 
-      # - name: Start Genymotion Instance
-      #   id: start_instance
-      #   run: |
-      #     INSTANCE_UUID=$(gmsaas instances start "${{ env.GM_ANDROID_14 }}" "${{ env.GMSAAS_INSTANCE_NAME }}")
-      #     echo "instance_uuid=$INSTANCE_UUID" >> "$GITHUB_OUTPUT"
-      #     echo "Waiting 60 seconds for instance to boot..."
-      #     sleep 15
+      - name: Start Genymotion Instance
+        id: start_instance
+        run: |
+          INSTANCE_UUID=$(gmsaas instances start "${{ env.GM_ANDROID_14 }}" "${{ env.GMSAAS_INSTANCE_NAME }}")
+          echo "instance_uuid=$INSTANCE_UUID" >> "$GITHUB_OUTPUT"
+          echo "Waiting 60 seconds for instance to boot..."
+          sleep 15
 
-      # - name: Connect Instance to ADB
-      #   run: |
-      #     gmsaas instances adbconnect "${{ steps.start_instance.outputs.instance_uuid }}"
-      #     $ANDROID_HOME/platform-tools/adb devices
+      - name: Connect Instance to ADB
+        run: |
+          gmsaas instances adbconnect "${{ steps.start_instance.outputs.instance_uuid }}"
+          $ANDROID_HOME/platform-tools/adb devices
 
       - name: Run Android E2E Tests
         run: |
           pwd
           ls
+          export MAESTRO_DRIVER_STARTUP_TIMEOUT=60000 # setting 60 seconds timeout
           $ANDROID_HOME/platform-tools/adb install apps/android/pdf_viewer.apk
           ./scripts/run_maestro_simple.sh
           if [ -s "failed_tests.txt" ]; then

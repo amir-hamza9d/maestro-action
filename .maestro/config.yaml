@@ -1,5 +1,7 @@
 flows:
   - "subFolder/*"
+env:
+  MAESTRO_DRIVER_TIMEOUT: "20000"
 includeTags:
   - tagNameToInclude
 excludeTags:
