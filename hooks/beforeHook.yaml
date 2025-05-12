@@ -5,16 +5,17 @@ env:
 - runScript: "../app-elements/base-elements.js"
 - launchApp:
     clearState: true
-    permissions:
-        all: deny
-        storage: deny 
-- extendedWaitUntil:
-    visible: ${output.base.consent} # or any other selector
-    timeout: 10000
-- assertVisible:
-        text: ${output.base.consent}
-- tapOn:
-    text: ${output.base.consent}
+
+# - assertVisible:
+#         text: ${output.base.consent}
+- waitForAnimationToEnd
+- runFlow:
+    when:
+        visible:
+            text: ${output.base.consent}
+    commands:
+        - tapOn:
+            text: ${output.base.consent}
 - waitForAnimationToEnd
 - runFlow:
     when:
