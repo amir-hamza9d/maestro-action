@@ -43,7 +43,7 @@ jobs:
         run: |
           INSTANCE_UUID=$(gmsaas instances start "${{ env.GM_ANDROID_14 }}" "${{ env.GMSAAS_INSTANCE_NAME }}")
           echo "instance_uuid=$INSTANCE_UUID" >> "$GITHUB_OUTPUT"
-          echo "Waiting 60 seconds for instance to boot..."
+          echo "Waiting 15 seconds for instance to boot..."
           sleep 15
 
       - name: Connect Instance to ADB
@@ -52,15 +52,22 @@ jobs:
           $ANDROID_HOME/platform-tools/adb devices
 
       - name: Run Android E2E Tests
+        id: run_tests
         run: |
           pwd
-          ls
           export MAESTRO_DRIVER_STARTUP_TIMEOUT=60000 # setting 60 seconds timeout
           $ANDROID_HOME/platform-tools/adb install apps/android/pdf_viewer.apk
           ./scripts/run_maestro_simple.sh
+          TEST_STATUS=$?
           if [ -s "failed_tests.txt" ]; then
             ./scripts/run_failed_tests.sh
+            RETRY_STATUS=$?
+            if [ $RETRY_STATUS -ne 0 ]; then
+              echo "Tests failed even after retry"
+              exit 1
+            fi
           fi
+          exit $TEST_STATUS
 
       - name: Stop Genymotion Instance
         if: always()
