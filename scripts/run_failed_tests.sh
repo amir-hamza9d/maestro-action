@@ -70,11 +70,16 @@ if $MAESTRO_BIN test $(grep -v "^$" "$FAILED_FLOWS_FILE") --env=APP_ID="$APP_ID"
     sleep 2
     $ANDROID_HOME/platform-tools/adb shell rm /sdcard/video_record.mp4 || true
   fi
+  exit 0
 else
   echo "❌ Some flows are still failing"
   
   # Save artifacts for failed tests
   save_failure_artifacts
+  
+  # Explicitly exit with failure code
+  echo "Tests failed even after retry. Marking job as failed."
+  exit 1
 fi
 
 echo "Retry of failed tests completed. Check reports and artifacts in $REPORT_DIR directory."
