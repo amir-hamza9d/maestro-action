@@ -55,7 +55,10 @@ jobs:
           pwd
           ls
           $ANDROID_HOME/platform-tools/adb install apps/android/pdf_viewer.apk
-          ~/.maestro/bin/maestro test flows/baseCheck.yaml
+          ./scripts/run_maestro_simple.sh
+          if [ -s "failed_tests.txt" ]; then
+            ./scripts/run_failed_tests.sh
+          fi
 
       - name: Stop Genymotion Instance
         if: always()
