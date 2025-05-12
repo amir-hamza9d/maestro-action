@@ -7,7 +7,7 @@ appId: pdfreader.pdfviewer.officetool.pdfscanner
 
 # Run the demo PDF verification test
 - runFlow:
-    file: "verify_demo_pdf.yaml"
+    file: "permission.yaml"
     label: "Running demo PDF verification test"
 
 # Wait a moment between tests to ensure clean state
