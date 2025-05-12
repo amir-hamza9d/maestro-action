@@ -5,6 +5,7 @@ env:
 - runScript: "../app-elements/base-elements.js"
 - launchApp:
     clearState: true
+
 # - assertVisible:
 #         text: ${output.base.consent}
 - waitForAnimationToEnd

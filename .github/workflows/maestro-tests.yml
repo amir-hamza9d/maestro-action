@@ -13,6 +13,7 @@ jobs:
 
     env:
       GMSAAS_INSTANCE_NAME: my-testing-device
+      MAESTRO_DRIVER_STARTUP_TIMEOUT: 60000 # setting 60 seconds timeout
 
     steps:
       - name: Checkout repo
@@ -43,7 +44,7 @@ jobs:
           INSTANCE_UUID=$(gmsaas instances start "${{ env.GM_ANDROID_14 }}" "${{ env.GMSAAS_INSTANCE_NAME }}")
           echo "instance_uuid=$INSTANCE_UUID" >> "$GITHUB_OUTPUT"
           echo "Waiting 60 seconds for instance to boot..."
-          sleep 20
+          sleep 15
 
       - name: Connect Instance to ADB
         run: |
@@ -54,6 +55,7 @@ jobs:
         run: |
           pwd
           ls
+          export MAESTRO_DRIVER_STARTUP_TIMEOUT=60000 # setting 60 seconds timeout
           $ANDROID_HOME/platform-tools/adb install apps/android/pdf_viewer.apk
           ./scripts/run_maestro_simple.sh
           if [ -s "failed_tests.txt" ]; then

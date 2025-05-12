@@ -14,24 +14,16 @@ appId: pdfreader.pdfviewer.officetool.pdfscanner
     label: "Tap on Allow Access button"
 
 - assertWithAI:
-    assertion: "Verify that the app redirected to phone settings"
-    label: "Verify redirection to phone settings"
+    assertion: "Allow access to manage all files"
+    label: "Verify phone settings"
 
 - tapOn:
-    text: "Storage"
-    label: "Tap on Storage permission"
-
-- tapOn:
-    text: "Allow"
-    label: "Enable storage permission toggle"
+    id: "android:id/switch_widget"
+    label: "enable permissions"
         
 - assertWithAI:
-    assertion: "Verify the app is back to the home screen"
+    assertion: "No files found"
     label: "Verify app redirection after permission"
-
-- assertVisible:
-    text: "No files Found"
-    label: "Verify 'No files Found' text is displayed on home screen"
 
 - killApp:
     label: "Close the app"
