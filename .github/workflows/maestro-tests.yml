@@ -82,7 +82,5 @@ jobs:
         with:
           name: E2E Report
           path: |
-            ${{ github.workspace }}/*.mp4
-            ${{ github.workspace }}/*.png
-            ${{ github.workspace }}/report*.xml
-            ~/.maestro/tests/**/*
+            ${{ github.workspace }}/artifacts/**/*
+            ${{ github.workspace }}/reports/**/*
