@@ -106,4 +106,4 @@ This project uses the following dependencies:
 Contributions are welcome! Please feel free to submit a Pull Request.
 
 
-Automate with Love ❤️❤️❤️
+Automate with Love ❤️
