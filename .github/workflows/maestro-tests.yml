@@ -1,7 +1,9 @@
 name: Android E2E (Genymotion Cloud)
 
 on:
-  workflow_dispatch:
+  # workflow_dispatch:
+  pull_request:
+    branches: [main]
 
 env:
   GM_ANDROID_14: 3990323a-1e9a-49df-ad87-6947f7fc166e
@@ -58,7 +60,8 @@ jobs:
           export MAESTRO_DRIVER_STARTUP_TIMEOUT=60000 # setting 60 seconds timeout
           $ANDROID_HOME/platform-tools/adb install apps/android/pdf_viewer.apk
           # ./scripts/run_maestro_simple.sh
-          $HOME/.maestro/bin/maestro test flows/*.yaml
+#           $HOME/.maestro/bin/maestro test flows/*.yaml
+          maestro test flows/*.yaml
           TEST_STATUS=$?
           if [ -s "failed_tests.txt" ]; then
             ./scripts/run_failed_tests.sh

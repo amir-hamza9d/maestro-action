@@ -31,6 +31,12 @@ env:
 - runFlow:
     when:
         visible:
+            text: "Got it"
+    commands:
+        - tapOn: "Got it"
+- runFlow:
+    when:
+        visible:
             text: ${output.base.later}
     commands:
         - tapOn:
