@@ -5,3 +5,6 @@ node_modules/*
 reports/*
 apps/android/*.apk
 apps/ios/*
+.vscode/*
+.vscode/*
+*/.DS_Store
