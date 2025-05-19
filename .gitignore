@@ -3,3 +3,5 @@ failed_tests.txt
 node_modules
 node_modules/*
 reports/*
+apps/android/*.apk
+apps/ios/*
