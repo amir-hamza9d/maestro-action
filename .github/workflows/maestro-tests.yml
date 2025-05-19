@@ -59,7 +59,8 @@ jobs:
           pwd
           export MAESTRO_DRIVER_STARTUP_TIMEOUT=60000 # setting 60 seconds timeout
           $ANDROID_HOME/platform-tools/adb install apps/android/pdf_viewer.apk
-          ./scripts/run_maestro_simple.sh
+          # ./scripts/run_maestro_simple.sh
+          maestro test flows/*.yaml
           TEST_STATUS=$?
           if [ -s "failed_tests.txt" ]; then
             ./scripts/run_failed_tests.sh
