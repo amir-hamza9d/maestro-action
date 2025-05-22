@@ -15,6 +15,10 @@ The example tests are configured for a PDF Reader Android application (package: 
 
 ## Project Structure
 
+<details>
+  <summary>Click to expand</summary>
+
+```plaintext
 📦 Project Root
 ├── flows/                          # Contains Maestro test flows in YAML format
 │   ├── baseCheck.yaml              # Basic app functionality verification
@@ -45,7 +49,8 @@ The example tests are configured for a PDF Reader Android application (package: 
 │
 └── .github/
     └── workflows/                  # GitHub Actions workflow configurations
-
+```
+</details>
 
 ## Prerequisites
 
