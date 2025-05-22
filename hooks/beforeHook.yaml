@@ -1,8 +1,9 @@
 appId: pdfreader.pdfviewer.officetool.pdfscanner
-env:
-    MAESTRO_CLOUD_API_KEY: "rb_1CcKRBzHIHJHZSX450ZFIFTBxTrS6COM30SohlNpfOjQaXnpBppaCjgG22KXUCotw0ul9i2LX8K7XaY4jQOnp60QNqS5Tih4Ret"
+
 ---
+
 - clearState: pdfreader.pdfviewer.officetool.pdfscanner
+
 - launchApp:
     appId: pdfreader.pdfviewer.officetool.pdfscanner
     clearState: true
@@ -10,9 +11,11 @@ env:
         medialibrary: unset
         storage: unset
         all: unset
+
 - runScript: "../app-elements/base-elements.js"
 
 - waitForAnimationToEnd
+
 - runFlow:
     when:
         visible:
@@ -20,7 +23,9 @@ env:
     commands:
         - tapOn:
             text: ${output.base.consent}
+
 - waitForAnimationToEnd
+
 - runFlow:
     when:
         visible:
@@ -28,12 +33,14 @@ env:
     commands:
         - tapOn:
             point: "94%,3%"
+
 - runFlow:
     when:
         visible:
             text: "Got it"
     commands:
         - tapOn: "Got it"
+
 - runFlow:
     when:
         visible:
@@ -41,6 +48,7 @@ env:
     commands:
         - tapOn:
             text: ${output.base.later}
+
 - runFlow:
     when:
         visible:
@@ -48,6 +56,7 @@ env:
     commands:
         - tapOn:
             id: "pdfreader.pdfviewer.officetool.pdfscanner:id/iv_close"
+
 - runFlow:
     when:
         visible:
@@ -55,6 +64,7 @@ env:
     commands:
         - tapOn:
             text: ${output.base.done}
+
 - runFlow:
     when:
         visible:
@@ -62,6 +72,6 @@ env:
     commands:
         - tapOn:
             point: "94%,7%"
-- assertWithAI:
-    assertion: "Verify PDF Reader heading"
-    label: "Verify PDF Reader Heading on home screen"
+
+- assertVisible:
+    text: "PDF Reader"

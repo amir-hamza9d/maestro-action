@@ -5,3 +5,7 @@ node_modules/*
 reports/*
 apps/android/*.apk
 apps/ios/*
+.maestro/.maestro
+Screen-shots/Expected/*
+Screen-shots/Actual/*
+Screen-shots/Diff/*

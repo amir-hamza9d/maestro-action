@@ -2,7 +2,14 @@
   "dependencies": {
     "cheerio": "^1.0.0",
     "fast-xml-parser": "^5.2.2",
+    "fs-extra": "^11.1.1",
+    "pixelmatch": "^5.3.0",
+    "pngjs": "^7.0.0",
     "xml2js": "^0.6.2",
     "xmlbuilder2": "^3.1.1"
+  },
+  "scripts": {
+    "compare-screenshots": "node scripts/compare_screenshots.js",
+    "applitools-compare": "node scripts/applitools_compare.js"
   }
 }

@@ -2,6 +2,7 @@ flows:
   - "subFolder/*"
 env:
   MAESTRO_DRIVER_TIMEOUT: "20000"
+  MAESTRO_CLOUD_API_KEY: "rb_1CcKRBzHIHJHZSX450ZFIFTBxTrS6COM30SohlNpfOjQaXnpBppaCjgG22KXUCotw0ul9i2LX8K7XaY4jQOnp60QNqS5Tih4Ret"
 includeTags:
   - tagNameToInclude
 excludeTags:
