@@ -1,9 +1,12 @@
 name: Android E2E (Genymotion Cloud)
 
 on:
-  # workflow_dispatch:
-  pull_request:
-    branches: [main]
+  workflow_dispatch:
+  
+# on:
+#   # workflow_dispatch:
+#   pull_request:
+#     branches: [main]
 
 env:
   GM_ANDROID_14: 3990323a-1e9a-49df-ad87-6947f7fc166e
