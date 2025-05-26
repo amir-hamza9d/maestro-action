@@ -80,6 +80,40 @@ jobs:
           gmsaas instances stop --no-wait "${{ steps.start_instance.outputs.instance_uuid }}"
           gmsaas instances list
 
+      - name: Setup Node.js for Visual Testing
+        if: always()
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install Visual Testing Dependencies
+        if: always()
+        run: npm install
+
+      - name: Run Pixelmatch Visual Comparison
+        if: always()
+        continue-on-error: true
+        run: |
+          echo "🔍 Running pixelmatch visual regression testing..."
+          node scripts/compare_screenshots.js
+
+      - name: Run Applitools Visual Comparison
+        if: always()
+        continue-on-error: true
+        env:
+          APPLITOOLS_API_KEY: ${{ secrets.APPLITOOLS_API_KEY }}
+          APPLITOOLS_APP_NAME: "PDF Viewer App"
+          APPLITOOLS_BATCH_NAME: "E2E Visual Tests - ${{ github.run_number }}"
+        run: |
+          echo "👁️ Running Applitools visual testing..."
+          if [ -z "$APPLITOOLS_API_KEY" ]; then
+            echo "⚠️ APPLITOOLS_API_KEY not set. Skipping Applitools comparison."
+            echo "ℹ️ To enable Applitools testing, add APPLITOOLS_API_KEY to your repository secrets."
+          else
+            node scripts/applitools_compare.js
+          fi
+
       - name: Upload Report
         if: always()
         uses: actions/upload-artifact@v4
@@ -90,3 +124,5 @@ jobs:
             ${{ github.workspace }}/artifacts/*
             ${{ github.workspace }}/reports/**/*
             ${{ github.workspace }}/reports/*
+            ${{ github.workspace }}/Screen-shots/**/*
+            ${{ github.workspace }}/Screen-shots/*

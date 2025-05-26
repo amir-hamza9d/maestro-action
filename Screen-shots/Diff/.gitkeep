@@ -1,0 +1,2 @@
+# This file ensures the Diff directory is tracked by Git
+# while excluding actual image files via .gitignore

@@ -6,6 +6,10 @@ reports/*
 apps/android/*.apk
 apps/ios/*
 .maestro/.maestro
+# Screen-shots directory structure - track directories but not image files
 Screen-shots/Expected/*
+!Screen-shots/Expected/.gitkeep
 Screen-shots/Actual/*
+!Screen-shots/Actual/.gitkeep
 Screen-shots/Diff/*
+!Screen-shots/Diff/.gitkeep
