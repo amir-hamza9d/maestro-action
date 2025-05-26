@@ -61,16 +61,27 @@ jobs:
           pwd
           export MAESTRO_DRIVER_STARTUP_TIMEOUT=60000 # setting 60 seconds timeout
           $ANDROID_HOME/platform-tools/adb install apps/android/pdf_viewer.apk
-          $HOME/.maestro/bin/maestro test flows/*.yaml
+
+          # Make scripts executable
+          chmod +x ./scripts/run_maestro_simple.sh
+          chmod +x ./scripts/run_failed_tests.sh
+
+          # Run tests using run_maestro_simple.sh which creates failed_tests.txt
+          echo "🚀 Running Maestro tests with failed test tracking..."
+          ./scripts/run_maestro_simple.sh
           TEST_STATUS=$?
+
+          # Check if there are failed tests to retry
           if [ -s "failed_tests.txt" ]; then
+            echo "⚠️ Found failed tests. Running retry logic..."
             ./scripts/run_failed_tests.sh
             RETRY_STATUS=$?
             if [ $RETRY_STATUS -ne 0 ]; then
-              echo "Tests failed even after retry"
+              echo "❌ Tests failed even after retry"
               exit 1
             fi
           fi
+
           exit $TEST_STATUS
 
       - name: Stop Genymotion Instance
