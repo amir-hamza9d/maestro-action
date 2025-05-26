@@ -12,6 +12,17 @@ TEST_SUCCESS=false
 MAESTRO_TEST_DIR="flows"  # Default directory containing your test flows
 TEST_FLOW=""  # Specific test flow to run (empty means run all)
 
+# Load environment variables from .env file if it exists
+if [ -f .env ]; then
+  echo "ℹ️ Loading environment variables from .env file"
+  export $(grep -v '^#' .env | xargs)
+fi
+
+# Set Maestro logging pattern if not already set
+if [ -z "${MAESTRO_CLI_LOG_PATTERN_CONSOLE:-}" ]; then
+  export MAESTRO_CLI_LOG_PATTERN_CONSOLE="%highlight([%5level]) %msg%n"
+fi
+
 # Parse command line arguments
 while [[ $# -gt 0 ]]; do
   case $1 in

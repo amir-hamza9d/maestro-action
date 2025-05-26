@@ -1,0 +1,8 @@
+appId: pdfreader.pdfviewer.officetool.pdfscanner
+
+---
+
+# Run the visual regression testing script
+# Note: Screen-shots/Expected, Screen-shots/Actual, and Screen-shots/Diff directories
+# must be created manually before running tests
+- runScript: "../scripts/compare_screenshots.js"

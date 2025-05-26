@@ -1,0 +1,23 @@
+appId: pdfreader.pdfviewer.officetool.pdfscanner
+---
+- runFlow:
+    file: "../hooks/beforeHook.yaml"
+    env:
+        FILENAME: "test.pdf"
+
+- assertVisible:
+    text: "PDF Reader"
+
+- tapOn:
+    id: "pdfreader.pdfviewer.officetool.pdfscanner:id/ivDrawer"
+
+- assertVisible:
+    text: "PDF Tools"
+
+- tapOn:
+    id: "pdfreader.pdfviewer.officetool.pdfscanner:id/switchPdfPreview"
+
+- assertVisible:
+    text: "PDF Reader"
+
+- killApp

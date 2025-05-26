@@ -9,6 +9,17 @@ FLOWS_DIR="flows"
 FAILED_FLOWS_FILE="failed_tests.txt"
 REPORT_DIR="artifacts"
 
+# Load environment variables from .env file if it exists
+if [ -f .env ]; then
+  echo "ℹ️ Loading environment variables from .env file"
+  export $(grep -v '^#' .env | xargs)
+fi
+
+# Set Maestro logging pattern if not already set
+if [ -z "${MAESTRO_CLI_LOG_PATTERN_CONSOLE:-}" ]; then
+  export MAESTRO_CLI_LOG_PATTERN_CONSOLE="%highlight([%5level]) %msg%n"
+fi
+
 echo "=== 🚀 Starting Maestro test execution... ==="
 echo "📁 Test directory: $FLOWS_DIR"
 echo "📱 App ID: $APP_ID"
@@ -28,13 +39,13 @@ echo "🧪 Running all tests in $FLOWS_DIR directory..."
 
 if ! $MAESTRO_BIN test "$FLOWS_DIR/" --env=APP_ID="$APP_ID" --format=html --output "$REPORT_DIR/report_${TIMESTAMP}.html"; then
   echo "❌ Some tests failed. Extracting failed flow paths..."
-  
+
   # Extract failed flow paths from the report
   # Look for buttons with ERROR or FAILURE status
-  grep -o '<button class="btn btn-danger"[^>]*>[^<]*</button>' "$REPORT_DIR/report_${TIMESTAMP}.html" | 
-    grep -o '>[^:]*:' | 
-    sed 's/>//g' | 
-    sed 's/://g' | 
+  grep -o '<button class="btn btn-danger"[^>]*>[^<]*</button>' "$REPORT_DIR/report_${TIMESTAMP}.html" |
+    grep -o '>[^:]*:' |
+    sed 's/>//g' |
+    sed 's/://g' |
     while read -r flow; do
       if [ -n "$flow" ]; then
         # Only add if it's not already in the file and trim whitespace
@@ -45,11 +56,11 @@ if ! $MAESTRO_BIN test "$FLOWS_DIR/" --env=APP_ID="$APP_ID" --format=html --outp
         fi
       fi
     done
-  
+
   echo "📝 Failed flows saved in $FAILED_FLOWS_FILE"
   echo "📊 Full report available at: $REPORT_DIR/report_${TIMESTAMP}.html"
   echo "🔄 Run './scripts/run_failed_tests.sh' to retry failed tests"
-  
+
   # Display count of failed tests
   FAILED_COUNT=$(wc -l < "$FAILED_FLOWS_FILE")
   echo "📊 Summary: $FAILED_COUNT test(s) failed"
