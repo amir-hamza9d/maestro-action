@@ -10,7 +10,7 @@ appId: pdfreader.pdfviewer.officetool.pdfscanner
 
 - takeScreenshot:
     path: Screen-shots/Actual/home-page
-    
+
 - extendedWaitUntil:
     visible: "Open" # or any other selector
     timeout: 10000
@@ -18,13 +18,13 @@ appId: pdfreader.pdfviewer.officetool.pdfscanner
 - tapOn:
     text: "Open"
 
-- assertVisible: 
+- assertVisible:
     text: "Large files"
 
-- tapOn: 
+- tapOn:
     text: "Search"
 
-- inputText: 
+- inputText:
     text: ${FILENAME}
 
 - back

@@ -1,0 +1,46 @@
+appId: pdfreader.pdfviewer.officetool.pdfscanner
+---
+- runFlow:
+    file: "../hooks/beforeHook.yaml"
+    env:
+        FILENAME: "test.pdf"
+
+- assertVisible:
+    text: "PDF Reader"
+    label: "Verified PDF Reader is visible"
+
+- tapOn:
+    id: "pdfreader.pdfviewer.officetool.pdfscanner:id/ivSort"
+    label: "Tapping on sort icon"
+
+- assertVisible:
+    text: "Filter"
+    label: "Verified Filter is visible"
+
+- tapOn:
+    text: "File Name"
+    label: "Clicking on File Name"
+
+- tapOn:
+    text: "Ascending"
+    label: "Clicking on Ascending"
+
+- tapOn:
+    text: "Apply"
+    label: "Clicking on Apply"
+
+- tapOn:
+    id: "pdfreader.pdfviewer.officetool.pdfscanner:id/ivSort"
+    label: "Clicking on sort icon again"
+
+- assertVisible:
+    text: "File Name"
+    enabled: true
+    label: "Verified File Name is selected"
+
+- assertVisible:
+    text: "Ascending"
+    enabled: true
+    label: "Verified Ascending is selected"
+
+- killApp

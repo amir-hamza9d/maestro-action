@@ -17,6 +17,7 @@ jobs:
       GMSAAS_INSTANCE_NAME: my-testing-device
       MAESTRO_DRIVER_STARTUP_TIMEOUT: 60000 # setting 60 seconds timeout
       MAESTRO_CLOUD_API_KEY: "rb_1CcKRBzHIHJHZSX450ZFIFTBxTrS6COM30SohlNpfOjQaXnpBppaCjgG22KXUCotw0ul9i2LX8K7XaY4jQOnp60QNqS5Tih4Ret"
+      MAESTRO_CLI_LOG_PATTERN_CONSOLE: "%highlight([%5level]) %msg%n"
 
     steps:
       - name: Checkout repo

@@ -72,6 +72,3 @@ appId: pdfreader.pdfviewer.officetool.pdfscanner
     commands:
         - tapOn:
             point: "94%,7%"
-
-- assertVisible:
-    text: "PDF Reader"

@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 /**
  * Applitools Visual Testing Integration Script for Maestro
  *
@@ -17,7 +19,12 @@
 
 const fs = require('fs-extra');
 const path = require('path');
-const { Eyes, BatchInfo, MatchLevel, ConsoleLogHandler } = require('@applitools/eyes-images');
+// Use older JS syntax to avoid destructuring issues with Rhino
+const applitools = require('@applitools/eyes-images');
+const Eyes = applitools.Eyes;
+const BatchInfo = applitools.BatchInfo;
+const MatchLevel = applitools.MatchLevel;
+const ConsoleLogHandler = applitools.ConsoleLogHandler;
 
 // Load environment variables from .env file if it exists
 try {

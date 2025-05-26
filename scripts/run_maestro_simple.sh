@@ -9,6 +9,17 @@ FLOWS_DIR="flows"
 FAILED_FLOWS_FILE="failed_tests.txt"
 REPORT_DIR="artifacts"
 
+# Load environment variables from .env file if it exists
+if [ -f .env ]; then
+  echo "ℹ️ Loading environment variables from .env file"
+  export $(grep -v '^#' .env | xargs)
+fi
+
+# Set Maestro logging pattern if not already set
+if [ -z "${MAESTRO_CLI_LOG_PATTERN_CONSOLE:-}" ]; then
+  export MAESTRO_CLI_LOG_PATTERN_CONSOLE="%highlight([%5level]) %msg%n"
+fi
+
 echo "=== 🚀 Starting Maestro test execution... ==="
 echo "📁 Test directory: $FLOWS_DIR"
 echo "📱 App ID: $APP_ID"

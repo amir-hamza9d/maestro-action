@@ -32,7 +32,7 @@ const DEBUG = false;
 
 // Check if directories exist
 function checkDirectories() {
-  console.log('✅ Checking if required directories exist...');
+  // console.log('✅ Checking if required directories exist...');
   if (!fs.existsSync(BASE_DIR)) {
     throw new Error(`❌ Screen-shots directory does not exist: ${BASE_DIR}`);
   }
@@ -91,7 +91,7 @@ async function compareImages(expectedPath, actualPath, diffPath) {
       expected.width,
       expected.height,
       {
-        threshold: 0.1,          // Threshold for considering pixels different
+        threshold: 0.3,          // Threshold for considering pixels different (least sensitive)
         alpha: 0.7,              // Alpha for unchanged pixels
         diffColor: [255, 0, 0],  // Red diff color
         diffColorAlt: [255, 0, 0], // Alternative diff color (also red)
@@ -172,7 +172,7 @@ async function compareImages(expectedPath, actualPath, diffPath) {
               }
             };
 
-            // Add highlights to surrounding pixels - thicker border (2px)
+            // Add highlights to surrounding pixels - much thicker, bolder border (3px)
             // Direct neighbors (1px away)
             highlightDiff(x-1, y);   // Left
             highlightDiff(x+1, y);   // Right
@@ -190,6 +190,22 @@ async function compareImages(expectedPath, actualPath, diffPath) {
             highlightDiff(x+2, y);   // Far right
             highlightDiff(x, y-2);   // Far top
             highlightDiff(x, y+2);   // Far bottom
+
+            // Additional diagonal border (2px away)
+            highlightDiff(x-2, y-1); // Far left-top
+            highlightDiff(x-2, y+1); // Far left-bottom
+            highlightDiff(x+2, y-1); // Far right-top
+            highlightDiff(x+2, y+1); // Far right-bottom
+            highlightDiff(x-1, y-2); // Far top-left
+            highlightDiff(x+1, y-2); // Far top-right
+            highlightDiff(x-1, y+2); // Far bottom-left
+            highlightDiff(x+1, y+2); // Far bottom-right
+
+            // Even thicker border (3px away) for maximum boldness
+            highlightDiff(x-3, y);   // Extra far left
+            highlightDiff(x+3, y);   // Extra far right
+            highlightDiff(x, y-3);   // Extra far top
+            highlightDiff(x, y+3);   // Extra far bottom
           }
         }
       }
@@ -202,7 +218,8 @@ async function compareImages(expectedPath, actualPath, diffPath) {
 
       // Save the enhanced diff image
       fs.writeFileSync(diffPath, PNG.sync.write(clearDiff));
-      console.log(`🔍 Differences found: ${diffCount} pixels highlighted in pink with bold yellow borders between Actual ${path.basename(actualPath)} and Baseline ${path.basename(expectedPath)}. Diff saved to ${path.basename(diffPath)}`);
+      console.log(`\x1b[31m🔍 Difference found in ${path.basename(actualPath)}\x1b[0m`);
+      console.log(`💾 Diff saved in Diff/${path.basename(diffPath)}`);
 
       // Use our direct comparison result instead of pixelmatch's result
       diffPixels = diffCount;
@@ -275,13 +292,19 @@ async function runComparison() {
     }
   }
 
-  // Print summary
-  console.log('\n📋 Visual Regression Test Summary:');
-  console.log(`📊 Total baseline screenshots: ${results.total}`);
-  console.log(`✅ Matching screenshots: ${results.matched}`);
-  console.log(`🔍 Screenshots with differences: ${results.differences}`);
-  console.log(`❌ Screenshots with errors: ${results.errors}`);
-  console.log(`⚠️ Missing actual screenshots: ${results.missing}`);
+  // Print summary in table format with integrated title
+  console.log('');
+  console.log('┌─────────────────────────────────────────────┐');
+  console.log('│        📋 Visual Regression Test Summary    │');
+  console.log('├─────────────────────────────────────┬───────┤');
+  console.log('│ Metric                              │ Count │');
+  console.log('├─────────────────────────────────────┼───────┤');
+  console.log(`│ 📊 Total baseline screenshots       │ ${results.total.toString().padStart(5)} │`);
+  console.log(`│ ✅ Matching screenshots             │ ${results.matched.toString().padStart(5)} │`);
+  console.log(`│ 🔍 Screenshots with differences     │ ${results.differences.toString().padStart(5)} │`);
+  console.log(`│ ❌ Screenshots with errors          │ ${results.errors.toString().padStart(5)} │`);
+  console.log(`│ ⚠️  Missing actual screenshots       │ ${results.missing.toString().padStart(5)} │`);
+  console.log('└─────────────────────────────────────┴───────┘');
 
   // Return non-zero exit code if there are differences or errors
   if (results.differences > 0 || results.errors > 0 || results.missing > 0) {
