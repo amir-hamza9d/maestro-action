@@ -33,9 +33,12 @@ fi
 
 # Check if the failed flows file exists and is not empty
 if [ ! -s "$FAILED_FLOWS_FILE" ]; then
+  echo ""
   echo "ℹ️ No failed tests to run. Exiting."
   exit 0
 fi
+
+echo ""
 
 # Create reports directory if it doesn't exist
 mkdir -p "$REPORT_DIR"
@@ -55,6 +58,8 @@ done < "$FAILED_FLOWS_FILE"
 # Count and print the number of failed tests
 FAILED_COUNT=${#FAILED_TEST_PATHS[@]}
 echo "ℹ️ Found $FAILED_COUNT failed tests to retry."
+
+echo "=== 🔄 Retrying Failed Tests ==="
 
 # Debug: Print all flows that will be run
 echo "ℹ️ Tests that will be run:"
