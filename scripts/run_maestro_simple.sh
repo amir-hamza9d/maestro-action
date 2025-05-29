@@ -12,7 +12,9 @@ REPORT_DIR="artifacts"
 # Load environment variables from .env file if it exists
 if [ -f .env ]; then
   echo "ℹ️ Loading environment variables from .env file"
-  export $(grep -v '^#' .env | xargs)
+  set -a  # automatically export all variables
+  source .env
+  set +a  # turn off automatic export
 fi
 
 # Set Maestro logging pattern if not already set
