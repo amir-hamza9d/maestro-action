@@ -65,10 +65,10 @@ appId: pdfreader.pdfviewer.officetool.pdfscanner
         - tapOn:
             text: ${output.base.done}
 
-- runFlow:
-    when:
-        visible:
-            text: ${output.base.testAd}
-    commands:
-        - tapOn:
-            point: "94%,7%"
+# - runFlow:
+#     when:
+#         visible:
+#             text: ${output.base.testAd}
+#     commands:
+#         - tapOn:
+#             point: "94%,7%"

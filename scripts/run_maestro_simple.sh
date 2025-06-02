@@ -23,7 +23,7 @@ if [ -z "${MAESTRO_CLI_LOG_PATTERN_CONSOLE:-}" ]; then
 fi
 
 echo "=== 🚀 Starting Maestro test execution... ==="
-echo "📁 Test directory: $FLOWS_DIR"
+echo "📁 Using config.yaml with flows from: $FLOWS_DIR"
 echo "📱 App ID: $APP_ID"
 
 # Create reports directory if it doesn't exist
@@ -37,9 +37,9 @@ echo "🧹 Cleared previous failed tests file"
 # Run all flows and generate HTML report
 TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
 echo "⏱️  Test started at: $(date)"
-echo "🧪 Running all tests in $FLOWS_DIR directory..."
+echo "🧪 Running all tests using config.yaml..."
 
-if ! $MAESTRO_BIN test "$FLOWS_DIR/" --env=APP_ID="$APP_ID" --format=html --output "$REPORT_DIR/report_${TIMESTAMP}.html"; then
+if ! $MAESTRO_BIN test . --env=APP_ID="$APP_ID" --format=html --output "$REPORT_DIR/report_${TIMESTAMP}.html"; then
   echo "❌ Some tests failed. Extracting failed flow paths..."
 
   # Extract failed flow paths from the report
